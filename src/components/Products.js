@@ -1,6 +1,7 @@
 import React, {useState}from "react";
-import { Button, Card, Col, Row} from 'antd';
+import { Button, Card, Col, Layout, Row} from 'antd';
 const { Meta } = Card;
+const { Header, Content, Footer } = Layout;
 
 const Products = ({addToCart}) => {
 
@@ -42,10 +43,10 @@ const Products = ({addToCart}) => {
 
 return (
     <>
-<Row gutter={8}  style={{
-      
-      padding:"20px 25px 20px 25px"
-      }}>
+    <Layout>
+     <Header style={{backgroundColor:"#F0F2F5"}}></Header>
+    <Content style={{ padding: '0 50px' }}>
+<Row gutter={8}  >
   {products.map((product) => (
   <Col className="gutter-row" span={4}>
 
@@ -64,7 +65,11 @@ return (
      </Card>
   </Col>
       ))}
+    
   </Row>
+  </Content>
+  <Footer style={{ textAlign: 'center',  marginTop:"30px"}}>Copyright © Strand 1999 - 2022</Footer>
+  </Layout>
 </>
 
 )

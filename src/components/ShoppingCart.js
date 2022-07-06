@@ -1,18 +1,23 @@
 import React,{useState} from "react";
-import { Button, Card, Col, Row} from 'antd';
+import { Button, Card, Col, Layout, Row} from 'antd';
 import { BookOutlined,ShoppingCartOutlined} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import Products from "./Products";
-import "./style.css"
+import Login from "./Login";
+const { Header, Content, Footer } = Layout;
+
+
 const { Meta } = Card;
 
 const PRODUCTS = 'products';
 const CART = 'cart';
-
-
+const LOGIN ='login'
 
 const ShoppingCart = () => {
 const [cart, setCart] = useState([]);
 const [page, setPage] = useState(PRODUCTS)
+
+
 
 
 const addToCart = (product) => {
@@ -25,9 +30,9 @@ const addToCart = (product) => {
 const removeBooks = (productRemove) => {
 
 setCart(cart.filter((product) => product !== productRemove));
-
-if(cart < 0){setCart("dkc")}
+console.log(cart)
 };
+
 
 const navigateTo = (nextPage) => {
     setPage(nextPage);
@@ -36,9 +41,10 @@ const navigateTo = (nextPage) => {
 
 const renderCart = () => (
     <>
-    <Row gutter={16} style={{
-      
-      padding:"20px 25px 20px 25px"}}>
+    <Layout>
+    <Header style={{backgroundColor:"#F0F2F5"}}></Header>
+     <Content style={{ padding: '0 50px' }}>
+    <Row gutter={16} >
       {cart.map((product) => (
       <Col className="gutter-row" span={4}>
     
@@ -49,11 +55,14 @@ const renderCart = () => (
            cover={<img alt="example" src={product.image}/>}
            >
            <Meta style={{marginLeft:"17px"}} title={product.title} description={product.price} /><br/>
-           <Button onClick={() => removeBooks(product)}>Remove</Button>
+           <Button onClick={() => removeBooks(product) }>Remove</Button>
          </Card>
       </Col>
           ))}
       </Row>
+      </Content>
+      <Footer style={{ textAlign: 'center',  marginTop:"30px"}}>Copyright © Strand 1999 - 2022</Footer>
+      </Layout>
     </>
     );
 
@@ -61,26 +70,29 @@ const renderCart = () => (
     return (
     <>
     <Row className="rowStyle">
-      <Col flex="auto">< BookOutlined style={{fontSize:"27px", color:"#1cc7c4"}}/><h1>BookStore</h1></Col>
-      <Col flex="100px">
+      <Col span={8}></Col>
+      <Col span={8}>< BookOutlined style={{fontSize:"27px", color:"#1cc7c4"}}/><h1>BookStore Strand</h1></Col>
+      
         
-        <Row className="displayRow">
+        <Col span={8} style={{marginTop:"23px"}}>
       <ShoppingCartOutlined  onClick={() => navigateTo(CART)} style={{fontSize:"27px", color:"#1cc7c4", display:"inline-block",marginRight:"10px"}} >
         ({cart.length})
       </ShoppingCartOutlined>
 
-      <Button ghost onClick={() => navigateTo(PRODUCTS)} style={{color:"black", marginTop:"9px", display:"inline-block", border:"solid black"}}>
+      <Button ghost onClick={() => navigateTo(PRODUCTS)} style={{color:"black", marginTop:"9px", display:"inline-block", border:"solid black",marginLeft:"10px"}}>
         <b>View books</b>
       </Button>
-      </Row>
+      <Button ghost onClick={() => navigateTo(LOGIN)} style={{color:"black", width:"110px",marginTop:"9px", display:"inline-block", border:"solid black", marginLeft:"10px"}}>
+       <b> Log out</b>
+      </Button>
       </Col>
     </Row>
 
   <br/><br/><br/>
 
 {page === PRODUCTS && <Products addToCart={ addToCart}/>}
-
 {page === CART &&  renderCart()}
+{page === LOGIN && <Login/>}
 
 </>
 
